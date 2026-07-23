@@ -31,7 +31,7 @@ module.exports = {
       "openingText": "Merci pour votre candidature au poste de **Secretaire d'Etat**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "staffRoleIds": [
+    
   "1522200911114403920",
   "1521241383552286861",
   "1521503217148493837"

@@ -91,8 +91,13 @@ async function createTicket(interaction, categoryId) {
     },
   ];
 
-  for (const roleId of [...(category.staffRoleIds || []), ...(guildConfig.getGuildAdminRoleIds(guild.id) || [])]) {
+ for (const roleId of [...(category.staffRoleIds || []), ...(guildConfig.getGuildAdminRoleIds(guild.id) || [])]) {
     if (!roleId || roleId.startsWith('METTRE_ICI')) continue;
+    // Ignore les IDs de rôle qui n'existent pas sur ce serveur (evite le crash)
+    if (!guild.roles.cache.has(roleId)) {
+      console.warn(`Role ${roleId} introuvable dans le cache du serveur ${guild.id}, ignore.`);
+      continue;
+    }
     overwrites.push({
       id: roleId,
       allow: [

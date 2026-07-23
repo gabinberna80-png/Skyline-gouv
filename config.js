@@ -1,13 +1,13 @@
 module.exports = {
-  "logChannelId": "1529081527156211852",
-  "archiveChannelId": "1529081527156211852",
+  "logChannelId": "1529538197845971095",
+  "archiveChannelId": "1529551051986829423",
   "adminRoleIds": [
-    "1529084525349572698"
+    "1529119974117998832"
   ],
   "deleteDelaySeconds": 10,
-  "rdvChannelId": "1529109896065318941",
+  "rdvChannelId": "1529538989441417296",
   "announceRoleIds": [
-    "1529084525349572698"
+    "1529119974117998832"
   ],
   "ticketCategories": [
     {
@@ -15,10 +15,10 @@ module.exports = {
       "label": "Recrutement DOJ",
       "emoji": "⚖️",
       "description": "Pour postuler au Department of Justice (DOJ)",
-      "openingText": "NTM LA SALOPE",
-      "discordCategoryId": "1529081527156211852",
+      "openingText": "Merci pour votre candidature au **DOJ**. Merci de detailler votre motivation et votre experience.",
+      "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1529084525349572698"
+        "A_REMPLIR"
       ]
     },
     {
@@ -27,9 +27,9 @@ module.exports = {
       "emoji": "🏛️",
       "description": "Pour postuler au poste de Secretaire d'Etat",
       "openingText": "Merci pour votre candidature au poste de **Secretaire d'Etat**. Merci de detailler votre motivation et votre experience.",
-      "discordCategoryId": "1529081527156211852",
+      "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1529084525349572698"
+        "A_REMPLIR"
       ]
     },
     {
@@ -38,9 +38,9 @@ module.exports = {
       "emoji": "🏢",
       "description": "Pour postuler au Cabinet du Gouverneur",
       "openingText": "Merci pour votre candidature au **Cabinet du Gouverneur**. Merci de detailler votre motivation et votre experience.",
-      "discordCategoryId": "1529081527156211852",
+      "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1529084525349572698"
+        "A_REMPLIR"
       ]
     },
     {
@@ -48,10 +48,10 @@ module.exports = {
       "label": "Recrutement Gouvernance Principale",
       "emoji": "👑",
       "description": "Pour postuler a la Gouvernance Principale",
-      "openingText": "STP SA MARCHE",
-      "discordCategoryId": "1529081527156211852",
+      "openingText": "Merci pour votre candidature au **Gouvrnance Principale**. Merci de detailler votre motivation et votre experience.",
+      "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1529084525349572698"
+        "A_REMPLIR"
       ]
     }
   ]

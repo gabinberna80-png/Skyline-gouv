@@ -28,6 +28,13 @@ for (const file of fs.readdirSync(commandsPath).filter((f) => f.endsWith('.js'))
   client.commands.set(command.data.name, command);
 }
 
+// Liens associés à chaque document (commande /documents)
+const documentLinks = {
+  acte_etat_civil: 'https://canva.link/et5rtraz4thhaa6',
+  acte_changement_identite: 'https://canva.link/1d8i7sm0o8a51bn',
+  acte_mariage: 'https://canva.link/wvc9kgxedc1x2lc',
+};
+
 client.once('ready', () => {
   console.log(`✅ Connecte en tant que ${client.user.tag}`);
 });
@@ -45,6 +52,7 @@ client.on('interactionCreate', async (interaction) => {
         const hasManage = interaction.member.permissions ? interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) : false;
         if (!isAdminRole && !hasManage) {
           return interaction.reply({ content: "Vous n'avez pas la permission d'utiliser cette commande.", ephemeral: true });
+          
         }
       }
 
@@ -72,6 +80,11 @@ client.on('interactionCreate', async (interaction) => {
         if (!cmd) return;
         if (interaction.customId === 'stp_category_select') return await cmd.handleCategorySelect(interaction);
         if (interaction.customId.startsWith('stp_action_select')) return await cmd.handleActionSelect(interaction);
+      }
+      if (interaction.customId === 'documents_select') {
+        const choix = interaction.values[0];
+        const lien = documentLinks[choix];
+        return await interaction.reply({ content: `Voici le lien : ${lien}`, ephemeral: true });
       }
     }
 

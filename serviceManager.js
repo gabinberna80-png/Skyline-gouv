@@ -107,10 +107,27 @@ async function handleHours(interaction) {
   return interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
+async function resetUserHours(interaction, targetUserId) {
+  const data = loadData();
+  const entry = getUserEntry(data, interaction.guildId, targetUserId);
+
+  entry.totalSeconds = 0;
+  entry.history = [];
+  // On ne touche pas à currentSessionStart : si le membre est en service
+  // au moment du reset, il reste en service (juste son compteur repart à 0).
+  saveData(data);
+
+  return interaction.update({
+    content: `♻️ Les heures de <@${targetUserId}> ont été réinitialisées.`,
+    components: [],
+  });
+}
+
 module.exports = {
   handleStart,
   handleEnd,
   handleHours,
+  resetUserHours,
   loadData,
   saveData,
   formatDuration,

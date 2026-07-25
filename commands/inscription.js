@@ -33,31 +33,31 @@ module.exports = {
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-    const naissance = new TextInputBuilder()
-      .setCustomId('naissance')
-      .setLabel('Année et lieu de naissance')
-      .setStyle(TextInputStyle.Short)
-      .setPlaceholder('Ex: 1998, Paris')
-      .setRequired(true);
-
-    const nationalite = new TextInputBuilder()
-      .setCustomId('nationalite')
-      .setLabel('Nationalité')
+    const anneeNaissance = new TextInputBuilder()
+      .setCustomId('anneeNaissance')
+      .setLabel('Année de naissance')
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-    const sexe = new TextInputBuilder()
-      .setCustomId('sexe')
-      .setLabel('Sexe')
+    const lieuNaissance = new TextInputBuilder()
+      .setCustomId('lieuNaissance')
+      .setLabel('Lieu de naissance')
       .setStyle(TextInputStyle.Short)
+      .setRequired(true);
+
+    const nationaliteSexe = new TextInputBuilder()
+      .setCustomId('nationaliteSexe')
+      .setLabel('Nationalité et sexe')
+      .setStyle(TextInputStyle.Short)
+      .setPlaceholder('Ex: Française, F')
       .setRequired(true);
 
     modal.addComponents(
       new ActionRowBuilder().addComponents(prenom),
       new ActionRowBuilder().addComponents(nom),
-      new ActionRowBuilder().addComponents(naissance),
-      new ActionRowBuilder().addComponents(nationalite),
-      new ActionRowBuilder().addComponents(sexe)
+      new ActionRowBuilder().addComponents(anneeNaissance),
+      new ActionRowBuilder().addComponents(lieuNaissance),
+      new ActionRowBuilder().addComponents(nationaliteSexe)
     );
 
     return interaction.showModal(modal);
@@ -66,9 +66,14 @@ module.exports = {
   async handleModalSubmit(interaction) {
     const prenom = interaction.fields.getTextInputValue('prenom').trim();
     const nom = interaction.fields.getTextInputValue('nom').trim();
-    const naissance = interaction.fields.getTextInputValue('naissance').trim();
-    const nationalite = interaction.fields.getTextInputValue('nationalite').trim();
-    const sexe = interaction.fields.getTextInputValue('sexe').trim();
+    const anneeNaissance = interaction.fields.getTextInputValue('anneeNaissance').trim();
+    const lieuNaissance = interaction.fields.getTextInputValue('lieuNaissance').trim();
+    const nationaliteSexeRaw = interaction.fields.getTextInputValue('nationaliteSexe').trim();
+
+    // Sépare "Française, F" en nationalite="Française" et sexe="F"
+    const parts = nationaliteSexeRaw.split(',').map((p) => p.trim());
+    const nationalite = parts[0] || '';
+    const sexe = parts[1] || '';
 
     const embed = new EmbedBuilder()
       .setTitle('📋 Nouvelle demande d\'inscription')
@@ -76,9 +81,10 @@ module.exports = {
       .addFields(
         { name: 'Prénom', value: prenom, inline: true },
         { name: 'Nom', value: nom, inline: true },
-        { name: 'Naissance', value: naissance, inline: false },
-        { name: 'Nationalité', value: nationalite, inline: true },
-        { name: 'Sexe', value: sexe, inline: true },
+        { name: 'Année de naissance', value: anneeNaissance, inline: true },
+        { name: 'Lieu de naissance', value: lieuNaissance, inline: true },
+        { name: 'Nationalité', value: nationalite || 'N/A', inline: true },
+        { name: 'Sexe', value: sexe || 'N/A', inline: true },
         { name: 'Demandeur', value: `<@${interaction.user.id}>`, inline: false }
       )
       .setTimestamp();
@@ -94,7 +100,6 @@ module.exports = {
         .setStyle(ButtonStyle.Danger)
     );
 
-    // Stocke les données temporairement sur le message pour les récupérer à la validation
     const adminChannelId = guildConfig.getInscriptionChannelId
       ? guildConfig.getInscriptionChannelId(interaction.guildId)
       : null;
@@ -129,13 +134,21 @@ module.exports = {
       const citizen = {
         prenom: getField('Prénom'),
         nom: getField('Nom'),
-        naissance: getField('Naissance'),
+        anneeNaissance: getField('Année de naissance'),
+        lieuNaissance: getField('Lieu de naissance'),
         nationalite: getField('Nationalité'),
         sexe: getField('Sexe'),
+        casier: '',
       };
 
       try {
-        await addCitizen(citizen);
+        const success = await appendCitizen(citizen);
+        if (!success) {
+          return interaction.reply({
+            content: '❌ Écriture impossible (vérifie GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_PRIVATE_KEY dans .env).',
+            ephemeral: true,
+          });
+        }
       } catch (e) {
         console.error('INSCRIPTION SHEET ERROR:', e);
         return interaction.reply({ content: `❌ Erreur lors de l'écriture dans le sheet : ${e.message}`, ephemeral: true });

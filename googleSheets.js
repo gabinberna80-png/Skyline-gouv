@@ -69,10 +69,11 @@ function buildCitizenRow(citizen) {
   return [
     citizen.nom || '',
     citizen.prenom || '',
-    citizen.ville || '',
-    citizen.dateNaissance || '',
-    citizen.travaille || '',
-    citizen.residence || '',
+    citizen.anneeNaissance || '',
+    citizen.nationalite || '',
+    citizen.lieuNaissance || '',
+    citizen.sexe || '',
+    citizen.casier || '',
   ];
 }
 
@@ -106,8 +107,10 @@ async function appendCitizen(citizen) {
   await doc.loadInfo();
   let sheet = doc.sheetsByTitle[sheetTitle];
   if (!sheet) {
-    sheet = await doc.addSheet({ title: sheetTitle, headerValues: ['nom', 'prenom', 'ville', 'note', 'addedAt'] });
-  }
+    sheet = await doc.addSheet({
+  title: sheetTitle,
+  headerValues: ['Nom', 'Prénom', 'Année de naissance', 'Nationalité', 'Lieu de naissance', 'Sexe', 'casier'],
+});
 
   await sheet.addRow(buildCitizenRow(citizen));
   return true;

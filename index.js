@@ -10,6 +10,7 @@ const {
   promptCloseReason,
   closeTicket,
 } = require('./ticketManager');
+const serviceManager = require('./serviceManager');
 
 const client = new Client({
   intents: [
@@ -113,6 +114,16 @@ client.on('interactionCreate', async (interaction) => {
       if (interaction.customId && interaction.customId.startsWith('inscription_')) {
         const cmd = client.commands.get('inscription');
         if (cmd && cmd.handleAdminResponse) return await cmd.handleAdminResponse(interaction);
+      }
+      // --- Panneau de service ---
+      if (interaction.customId === 'service_start') {
+        return await serviceManager.handleStart(interaction);
+      }
+      if (interaction.customId === 'service_end') {
+        return await serviceManager.handleEnd(interaction);
+      }
+      if (interaction.customId === 'service_hours') {
+        return await serviceManager.handleHours(interaction);
       }
     }
 

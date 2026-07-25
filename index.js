@@ -1,7 +1,15 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { Client, GatewayIntentBits, Collection, Partials, PermissionFlagsBits } = require('discord.js');
+const {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  Partials,
+  PermissionFlagsBits,
+  ActionRowBuilder,
+  UserSelectMenuBuilder,
+} = require('discord.js');
 const config = require('./config');
 const guildConfig = require('./guildConfig');
 const {
@@ -35,6 +43,17 @@ const documentLinks = {
   acte_changement_identite: 'https://canva.link/1d8i7sm0o8a51bn',
   acte_mariage: 'https://canva.link/wvc9kgxedc1x2lc',
 };
+
+function isGuildAdmin(interaction) {
+  const guildAdminRoleIds = guildConfig.getGuildAdminRoleIds(interaction.guildId);
+  const isAdminRole = interaction.member.roles
+    ? interaction.member.roles.cache.some((r) => guildAdminRoleIds.includes(r.id))
+    : false;
+  const hasManage = interaction.member.permissions
+    ? interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
+    : false;
+  return isAdminRole || hasManage;
+}
 
 client.once('ready', () => {
   console.log(`✅ Connecte en tant que ${client.user.tag}`);
@@ -124,6 +143,39 @@ client.on('interactionCreate', async (interaction) => {
       }
       if (interaction.customId === 'service_hours') {
         return await serviceManager.handleHours(interaction);
+      }
+      if (interaction.customId === 'service_reset') {
+        if (!isGuildAdmin(interaction)) {
+          return interaction.reply({
+            content: "Vous n'avez pas la permission d'utiliser ce bouton.",
+            ephemeral: true,
+          });
+        }
+        const menu = new UserSelectMenuBuilder()
+          .setCustomId('service_reset_select')
+          .setPlaceholder('Choisissez le membre dont vous voulez réinitialiser les heures')
+          .setMinValues(1)
+          .setMaxValues(1);
+        const row = new ActionRowBuilder().addComponents(menu);
+        return interaction.reply({
+          content: 'Sélectionnez le membre à réinitialiser :',
+          components: [row],
+          ephemeral: true,
+        });
+      }
+    }
+
+    // --- Selecteur de membre : reset des heures de service ---
+    if (interaction.isUserSelectMenu()) {
+      if (interaction.customId === 'service_reset_select') {
+        if (!isGuildAdmin(interaction)) {
+          return interaction.reply({
+            content: "Vous n'avez pas la permission d'utiliser ce menu.",
+            ephemeral: true,
+          });
+        }
+        const targetUserId = interaction.values[0];
+        return await serviceManager.resetUserHours(interaction, targetUserId);
       }
     }
 

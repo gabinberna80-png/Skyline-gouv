@@ -110,6 +110,10 @@ client.on('interactionCreate', async (interaction) => {
         const cmd = client.commands.get('rdv');
         if (cmd && cmd.handleAdminResponse) return await cmd.handleAdminResponse(interaction);
       }
+      if (interaction.customId && interaction.customId.startsWith('inscription_')) {
+        const cmd = client.commands.get('inscription');
+        if (cmd && cmd.handleAdminResponse) return await cmd.handleAdminResponse(interaction);
+      }
     }
 
     // --- Modales ---
@@ -128,6 +132,10 @@ client.on('interactionCreate', async (interaction) => {
       }
       if (interaction.customId === 'setup_modal') {
         const cmd = client.commands.get('setup');
+        if (cmd && cmd.handleModalSubmit) return await cmd.handleModalSubmit(interaction);
+      }
+      if (interaction.customId === 'inscription_modal') {
+        const cmd = client.commands.get('inscription');
         if (cmd && cmd.handleModalSubmit) return await cmd.handleModalSubmit(interaction);
       }
     }

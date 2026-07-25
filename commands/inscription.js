@@ -8,7 +8,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
-const { addCitizen } = require('../googleSheets');
+const { appendCitizen } = require('../googleSheets');
 const guildConfig = require('../guildConfig');
 
 module.exports = {

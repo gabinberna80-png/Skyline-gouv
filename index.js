@@ -37,6 +37,12 @@ const documentLinks = {
 
 client.once('ready', () => {
   console.log(`✅ Connecte en tant que ${client.user.tag}`);
+
+  // Relance les rappels programmés avant un redémarrage
+  const rappelCommand = client.commands.get('rappel');
+  if (rappelCommand && rappelCommand.restoreReminders) {
+    rappelCommand.restoreReminders(client);
+  }
 });
 
 client.on('interactionCreate', async (interaction) => {

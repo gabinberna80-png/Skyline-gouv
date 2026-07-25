@@ -75,7 +75,7 @@ function buildCitizenRow(citizen) {
     citizen.sexe || '',
     citizen.casier || '',
   ];
-}}
+}
 
 async function appendRdvRequest(request) {
   const sheet = await ensureSheetReady();
@@ -108,9 +108,10 @@ async function appendCitizen(citizen) {
   let sheet = doc.sheetsByTitle[sheetTitle];
   if (!sheet) {
     sheet = await doc.addSheet({
-  title: sheetTitle,
-  headerValues: ['Nom', 'Prénom', 'Année de naissance', 'Nationalité', 'Lieu de naissance', 'Sexe', 'casier'],
-});
+      title: sheetTitle,
+      headerValues: ['Nom', 'Prénom', 'Année de naissance', 'Nationalité', 'Lieu de naissance', 'Sexe', 'casier'],
+    });
+  }
 
   await sheet.addRow(buildCitizenRow(citizen));
   return true;

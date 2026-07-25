@@ -16,7 +16,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('🕒 Panneau de service')
       .setDescription(
-        'Utilisez les boutons ci-dessous pour prendre ou terminer votre service, ou consulter vos heures totales.'
+        'Utilisez les boutons ci dessous pour prendre ou retirez votre service. Pensez-y !'
       )
       .setColor(0x2b2d31);
 

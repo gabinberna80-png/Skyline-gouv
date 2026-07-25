@@ -30,7 +30,7 @@ module.exports = {
         .setCustomId('service_end')
         .setLabel('Fin de service')
         .setStyle(ButtonStyle.Danger)
-        .setEmoji('🔴'),
+        .setEmoji('🙅'),
       new ButtonBuilder()
         .setCustomId('service_hours')
         .setLabel('Heures totales')

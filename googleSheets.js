@@ -75,7 +75,7 @@ function buildCitizenRow(citizen) {
     citizen.sexe || '',
     citizen.casier || '',
   ];
-}
+}}
 
 async function appendRdvRequest(request) {
   const sheet = await ensureSheetReady();

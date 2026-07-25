@@ -9,7 +9,9 @@ const {
   ButtonStyle,
 } = require('discord.js');
 const { appendCitizen } = require('../googleSheets');
-const guildConfig = require('../guildConfig');
+
+const INSCRIPTION_CHANNEL_ID = '1530602327126315148';
+const INSCRIPTION_ROLE_ID = '1518197588476563587';
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -33,31 +35,32 @@ module.exports = {
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-    const anneeNaissance = new TextInputBuilder()
-      .setCustomId('anneeNaissance')
-      .setLabel('Année de naissance')
+    const naissance = new TextInputBuilder()
+      .setCustomId('naissance')
+      .setLabel('Année et lieu de naissance')
+      .setStyle(TextInputStyle.Short)
+      .setPlaceholder('Ex: 1998, Paris')
+      .setRequired(true);
+
+    const nationalite = new TextInputBuilder()
+      .setCustomId('nationalite')
+      .setLabel('Nationalité')
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-    const lieuNaissance = new TextInputBuilder()
-      .setCustomId('lieuNaissance')
-      .setLabel('Lieu de naissance')
+    const sexe = new TextInputBuilder()
+      .setCustomId('sexe')
+      .setLabel('Sexe')
       .setStyle(TextInputStyle.Short)
-      .setRequired(true);
-
-    const nationaliteSexe = new TextInputBuilder()
-      .setCustomId('nationaliteSexe')
-      .setLabel('Nationalité et sexe')
-      .setStyle(TextInputStyle.Short)
-      .setPlaceholder('Ex: Française, F')
+      .setPlaceholder('H / F')
       .setRequired(true);
 
     modal.addComponents(
       new ActionRowBuilder().addComponents(prenom),
       new ActionRowBuilder().addComponents(nom),
-      new ActionRowBuilder().addComponents(anneeNaissance),
-      new ActionRowBuilder().addComponents(lieuNaissance),
-      new ActionRowBuilder().addComponents(nationaliteSexe)
+      new ActionRowBuilder().addComponents(naissance),
+      new ActionRowBuilder().addComponents(nationalite),
+      new ActionRowBuilder().addComponents(sexe)
     );
 
     return interaction.showModal(modal);
@@ -66,14 +69,14 @@ module.exports = {
   async handleModalSubmit(interaction) {
     const prenom = interaction.fields.getTextInputValue('prenom').trim();
     const nom = interaction.fields.getTextInputValue('nom').trim();
-    const anneeNaissance = interaction.fields.getTextInputValue('anneeNaissance').trim();
-    const lieuNaissance = interaction.fields.getTextInputValue('lieuNaissance').trim();
-    const nationaliteSexeRaw = interaction.fields.getTextInputValue('nationaliteSexe').trim();
+    const naissanceRaw = interaction.fields.getTextInputValue('naissance').trim();
+    const nationalite = interaction.fields.getTextInputValue('nationalite').trim();
+    const sexe = interaction.fields.getTextInputValue('sexe').trim();
 
-    // Sépare "Française, F" en nationalite="Française" et sexe="F"
-    const parts = nationaliteSexeRaw.split(',').map((p) => p.trim());
-    const nationalite = parts[0] || '';
-    const sexe = parts[1] || '';
+    // Sépare "1998, Paris" en anneeNaissance="1998" et lieuNaissance="Paris"
+    const parts = naissanceRaw.split(',').map((p) => p.trim());
+    const anneeNaissance = parts[0] || '';
+    const lieuNaissance = parts[1] || '';
 
     const embed = new EmbedBuilder()
       .setTitle('📋 Nouvelle demande d\'inscription')
@@ -81,10 +84,10 @@ module.exports = {
       .addFields(
         { name: 'Prénom', value: prenom, inline: true },
         { name: 'Nom', value: nom, inline: true },
-        { name: 'Année de naissance', value: anneeNaissance, inline: true },
-        { name: 'Lieu de naissance', value: lieuNaissance, inline: true },
-        { name: 'Nationalité', value: nationalite || 'N/A', inline: true },
-        { name: 'Sexe', value: sexe || 'N/A', inline: true },
+        { name: 'Année de naissance', value: anneeNaissance || 'N/A', inline: true },
+        { name: 'Lieu de naissance', value: lieuNaissance || 'N/A', inline: true },
+        { name: 'Nationalité', value: nationalite, inline: true },
+        { name: 'Sexe', value: sexe, inline: true },
         { name: 'Demandeur', value: `<@${interaction.user.id}>`, inline: false }
       )
       .setTimestamp();
@@ -100,19 +103,16 @@ module.exports = {
         .setStyle(ButtonStyle.Danger)
     );
 
-    const adminChannelId = guildConfig.getInscriptionChannelId
-      ? guildConfig.getInscriptionChannelId(interaction.guildId)
-      : null;
-
-    const targetChannel = adminChannelId
-      ? await interaction.client.channels.fetch(adminChannelId).catch(() => null)
-      : interaction.channel;
+    const targetChannel = await interaction.client.channels
+      .fetch(INSCRIPTION_CHANNEL_ID)
+      .catch(() => null);
 
     if (!targetChannel) {
       return interaction.reply({ content: '❌ Salon de validation introuvable, contactez un admin.', ephemeral: true });
     }
 
     await targetChannel.send({
+      content: `<@&${INSCRIPTION_ROLE_ID}>`,
       embeds: [embed],
       components: [row],
     });
@@ -145,7 +145,7 @@ module.exports = {
         const success = await appendCitizen(citizen);
         if (!success) {
           return interaction.reply({
-            content: '❌ Écriture impossible (vérifie GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_PRIVATE_KEY dans .env).',
+            content: '❌ Écriture impossible (vérifie les credentials Google service account et le partage de la sheet).',
             ephemeral: true,
           });
         }
@@ -155,6 +155,7 @@ module.exports = {
       }
 
       await interaction.update({
+        content: '',
         embeds: [EmbedBuilder.from(embed).setColor(0x2ecc71).setTitle('✅ Inscription validée')],
         components: [],
       });
@@ -166,6 +167,7 @@ module.exports = {
     } else {
       const embed = interaction.message.embeds[0];
       await interaction.update({
+        content: '',
         embeds: [EmbedBuilder.from(embed).setColor(0xe74c3c).setTitle('❌ Inscription refusée')],
         components: [],
       });

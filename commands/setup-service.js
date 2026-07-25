@@ -16,7 +16,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('🕒 Panneau de service')
       .setDescription(
-        'Utilisez les boutons ci dessous pour prendre ou retirez votre service. Pensez-y !'
+        'Utilisez les boutons ci-dessous pour prendre ou terminer votre service, ou consulter vos heures totales.'
       )
       .setColor(0x2b2d31);
 
@@ -30,12 +30,17 @@ module.exports = {
         .setCustomId('service_end')
         .setLabel('Fin de service')
         .setStyle(ButtonStyle.Danger)
-        .setEmoji('🙅'),
+        .setEmoji('🔴'),
       new ButtonBuilder()
         .setCustomId('service_hours')
         .setLabel('Heures totales')
         .setStyle(ButtonStyle.Secondary)
-        .setEmoji('📊')
+        .setEmoji('📊'),
+      new ButtonBuilder()
+        .setCustomId('service_reset')
+        .setLabel('Réinitialiser les heures')
+        .setStyle(ButtonStyle.Danger)
+        .setEmoji('♻️')
     );
 
     await interaction.channel.send({ embeds: [embed], components: [row] });

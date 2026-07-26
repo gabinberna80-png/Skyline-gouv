@@ -87,22 +87,41 @@ async function handleEnd(interaction) {
 
 async function handleHours(interaction) {
   const data = loadData();
-  const entry = getUserEntry(data, interaction.guildId, interaction.user.id);
+  const guildData = data[interaction.guildId] || {};
 
-  let liveSeconds = entry.totalSeconds;
-  if (entry.currentSessionStart) {
-    liveSeconds += Math.floor((Date.now() - entry.currentSessionStart) / 1000);
+  const entries = Object.entries(guildData).map(([userId, entry]) => {
+    let liveSeconds = entry.totalSeconds;
+    if (entry.currentSessionStart) {
+      liveSeconds += Math.floor((Date.now() - entry.currentSessionStart) / 1000);
+    }
+    return { userId, liveSeconds, inService: !!entry.currentSessionStart };
+  });
+
+  if (entries.length === 0) {
+    return interaction.reply({
+      content: 'Aucune heure de service enregistrée pour le moment.',
+      ephemeral: true,
+    });
+  }
+
+  entries.sort((a, b) => b.liveSeconds - a.liveSeconds);
+
+  const MAX_LINES = 25;
+  const shown = entries.slice(0, MAX_LINES);
+  const lines = shown.map((e, i) => {
+    const status = e.inService ? '🟢' : '🔴';
+    return `**${i + 1}.** ${status} <@${e.userId}> — **${formatDuration(e.liveSeconds)}**`;
+  });
+
+  if (entries.length > MAX_LINES) {
+    lines.push(`*(+ ${entries.length - MAX_LINES} autre(s) membre(s) non affiché(s))*`);
   }
 
   const embed = new EmbedBuilder()
-    .setTitle('📊 Heures de service')
-    .setDescription(
-      `${interaction.user} a effectué **${formatDuration(liveSeconds)}** de service au total.` +
-        (entry.currentSessionStart
-          ? '\n🟢 Actuellement en service.'
-          : '\n🔴 Actuellement hors service.')
-    )
-    .setColor(0x2b2d31);
+    .setTitle('📊 Heures de service — Classement')
+    .setDescription(lines.join('\n'))
+    .setColor(0x2b2d31)
+    .setFooter({ text: '🟢 en service actuellement · 🔴 hors service' });
 
   return interaction.reply({ embeds: [embed], ephemeral: true });
 }

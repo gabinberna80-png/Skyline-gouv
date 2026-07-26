@@ -79,7 +79,7 @@ async function handleEnd(interaction) {
 
   return interaction.reply({
     content:
-      `🔴 Fin de service. Durée de la session : **${formatDuration(durationSeconds)}**.\n` +
+      `🙅 Fin de service. Durée de la session : **${formatDuration(durationSeconds)}**.\n` +
       `Temps total cumulé : **${formatDuration(entry.totalSeconds)}**.`,
     ephemeral: true,
   });
@@ -109,7 +109,7 @@ async function handleHours(interaction) {
   const MAX_LINES = 25;
   const shown = entries.slice(0, MAX_LINES);
   const lines = shown.map((e, i) => {
-    const status = e.inService ? '🟢' : '🔴';
+    const status = e.inService ? '🟢' : '🙅';
     return `**${i + 1}.** ${status} <@${e.userId}> — **${formatDuration(e.liveSeconds)}**`;
   });
 
@@ -121,7 +121,7 @@ async function handleHours(interaction) {
     .setTitle('📊 Heures de service — Classement')
     .setDescription(lines.join('\n'))
     .setColor(0x2b2d31)
-    .setFooter({ text: '🟢 en service actuellement · 🔴 hors service' });
+    .setFooter({ text: '🟢 en service actuellement · 🙅 hors service' });
 
   return interaction.reply({ embeds: [embed], ephemeral: true });
 }

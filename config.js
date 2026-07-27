@@ -18,10 +18,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **DOJ**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-  "1522200911114403920",
-  "1521241383552286861",
-  "1521503217148493837"
-]
+        "1522200911114403920",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
     },
     {
       "id": "recrutement_secretaire_etat",
@@ -31,11 +31,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au poste de **Secretaire d'Etat**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-    
-  "1522200911114403920",
-  "1521241383552286861",
-  "1521503217148493837"
-]
+        "1522200911114403920",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
     },
     {
       "id": "recrutement_cabinet_gouverneur",
@@ -45,11 +44,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **Cabinet du Gouverneur**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-  
-  "1522200911114403920",
-  "1521241383552286861",
-  "1521503217148493837"
-]
+        "1522200911114403920",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
     },
     {
       "id": "recrutement_gouvernance_principale",
@@ -59,11 +57,23 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **Gouvrnance Principale**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-    
-  "1522200911114403920",
-  "1521241383552286861",
-  "1521503217148493837"
-]
+        "1522200911114403920",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
+    },
+    {
+      "id": "recrutement_dsis",
+      "label": "Recrutement DSIS",
+      "emoji": "🕵️",
+      "description": "Pour postuler a la DSIS",
+      "openingText": "Merci pour votre candidature a la **DSIS**. Merci de detailler votre motivation et votre experience.",
+      "discordCategoryId": "1529645845102727239",
+      "staffRoleIds": [
+        "1522200911114403920",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
     }
   ]
 }

@@ -41,7 +41,7 @@ for (const file of fs.readdirSync(commandsPath).filter((f) => f.endsWith('.js'))
 const documentLinks = {
   acte_etat_civil: 'https://canva.link/u7t9r9p83sj8qbb',
   acte_changement_identite: 'https://canva.link/898fkklsmneh1ll',
-  acte_mariage: 'https://canva.link/wvc9kgxedc1x2lc',
+  acte_mariage: 'https://canva.link/tvkgfzcd28dwc94',
 };
 
 function isGuildAdmin(interaction) {

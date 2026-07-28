@@ -39,8 +39,8 @@ for (const file of fs.readdirSync(commandsPath).filter((f) => f.endsWith('.js'))
 
 // Liens associés à chaque document (commande /documents)
 const documentLinks = {
-  acte_etat_civil: 'https://canva.link/et5rtraz4thhaa6',
-  acte_changement_identite: 'https://canva.link/1d8i7sm0o8a51bn',
+  acte_etat_civil: 'https://canva.link/u7t9r9p83sj8qbb',
+  acte_changement_identite: 'https://canva.link/898fkklsmneh1ll',
   acte_mariage: 'https://canva.link/wvc9kgxedc1x2lc',
 };
 

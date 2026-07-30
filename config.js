@@ -18,9 +18,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **DOJ**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1522200911114403920",
         "1521241383552286861",
-        "1521503217148493837"
+        "1521503217148493837",
+        "1522200756772540587",
+        "1522200611691696178"
       ]
     },
     {
@@ -31,9 +32,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au poste de **Secretaire d'Etat**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1522200911114403920",
         "1521241383552286861",
-        "1521503217148493837"
+        "1521503217148493837",
+        "1522200756772540587",
+        "1522200611691696178"
       ]
     },
     {
@@ -44,9 +46,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **Cabinet du Gouverneur**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1522200911114403920",
         "1521241383552286861",
-        "1521503217148493837"
+        "1521503217148493837",
+        "1522200756772540587",
+        "1522200611691696178"
       ]
     },
     {
@@ -57,9 +60,10 @@ module.exports = {
       "openingText": "Merci pour votre candidature au **Gouvrnance Principale**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1522200911114403920",
         "1521241383552286861",
-        "1521503217148493837"
+        "1521503217148493837",
+        "1522200756772540587",
+        "1522200611691696178"
       ]
     },
     {
@@ -70,10 +74,22 @@ module.exports = {
       "openingText": "Merci pour votre candidature a la **DSIS**. Merci de detailler votre motivation et votre experience.",
       "discordCategoryId": "1529645845102727239",
       "staffRoleIds": [
-        "1522200911114403920",
+        "1530140515914223626"
+      ]
+    },
+    {
+      "id": "demande_proces",
+      "label": "Demande de procès",
+      "emoji": "⚖️",
+      "description": "Pour ouvrir une procedure judiciaire / porter plainte",
+      "openingText": "Merci pour votre demande de **procès**. Merci de detailler les faits reproches, les personnes concernees et les preuves disponibles.",
+      "discordCategoryId": "1532423519164698787",
+      "staffRoleIds": [
+        "1516532757319127160",
         "1521241383552286861",
-        "1521503217148493837"
+        "1521503217148493837",
+        "1520034349041451048",
+        "1518197517420855398"
       ]
     }
   ]
-}

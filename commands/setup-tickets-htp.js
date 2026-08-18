@@ -16,7 +16,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('Ticket HRP')
       .setDescription(
-        "Besoin d'aide, d'une information ou vous souhaitez signaler quelque chose hors RP ? Ouvrez un ticket ci-dessous."
+        "Si vous avez besoin d'aide ou d'une information merci d'ouvrir un ticket, merci également de restez poli et claire dans vos demande"
       )
       .setColor(0x2b2d31);
 

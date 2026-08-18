@@ -122,6 +122,10 @@ client.on('interactionCreate', async (interaction) => {
       if (interaction.customId === 'ticket_close') {
         return await promptCloseReason(interaction);
       }
+      // --- Ticket HRP (panneau separe) ---
+      if (interaction.customId === 'ticket_hrp_open') {
+        return await createTicket(interaction, 'ticket_hrp');
+      }
       if (interaction.customId === 'rdv_start') {
         const cmd = client.commands.get('rdv');
         if (cmd && cmd.handleRdvStart) return await cmd.handleRdvStart(interaction);

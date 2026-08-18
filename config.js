@@ -25,6 +25,18 @@ module.exports = {
       ]
     },
     {
+  "id": "ticket_hrp",
+  "label": "Ticket HRP",
+  "emoji": "💬",
+  "description": "Pour toute demande hors RP (question, problème, signalement...)",
+  "openingText": "Merci pour votre demande **HRP**. Merci de detailler votre demande le plus precisement possible.",
+  "discordCategoryId": "METTRE_ICI_ID_CATEGORIE_HRP",
+  "panel": "hrp",
+  "staffRoleIds": [
+    "METTRE_ICI_ID_ROLE_STAFF_HRP"
+  ]
+}
+    {
       "id": "recrutement_secretaire_etat",
       "label": "Recrutement Secretaire d'Etat",
       "emoji": "🏛️",

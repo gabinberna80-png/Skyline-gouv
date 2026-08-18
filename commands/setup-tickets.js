@@ -23,16 +23,18 @@ module.exports = {
       .setColor(0x2b2d31);
 
     const menu = new StringSelectMenuBuilder()
-      .setCustomId('ticket_select')
-      .setPlaceholder('Fais un choix')
-      .addOptions(
-        config.ticketCategories.map((c) => ({
-          label: c.label,
-          description: c.description.slice(0, 100),
-          value: c.id,
-          emoji: c.emoji,
-        }))
-      );
+  .setCustomId('ticket_select')
+  .setPlaceholder('Fais un choix')
+  .addOptions(
+    config.ticketCategories
+      .filter((c) => c.panel !== 'hrp')   // <-- ligne ajoutée
+      .map((c) => ({
+        label: c.label,
+        description: c.description.slice(0, 100),
+        value: c.id,
+        emoji: c.emoji,
+      }))
+  );
 
     const row = new ActionRowBuilder().addComponents(menu);
 

@@ -19,14 +19,17 @@ const {
   closeTicket,
 } = require('./ticketManager');
 const serviceManager = require('./serviceManager');
+const dmTicketManager = require('./dmTicketManager');
 
 const client = new Client({
   intents: [
-    // Pour démarrer sans permissions privilégiées, n'inclure que les intents non-priviliégés.
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
+    // Intents necessaires pour le systeme ModMail (MP)
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.MessageContent, // intent privilegie : a activer sur le Developer Portal
   ],
-  partials: [Partials.Channel],
+  partials: [Partials.Channel, Partials.Message],
 });
 
 // Chargement des commandes slash
@@ -62,6 +65,25 @@ client.once('ready', () => {
   const rappelCommand = client.commands.get('rappel');
   if (rappelCommand && rappelCommand.restoreReminders) {
     rappelCommand.restoreReminders(client);
+  }
+});
+
+// --- Messages : relais ModMail (MP <-> salon staff) ---
+client.on('messageCreate', async (message) => {
+  try {
+    if (message.author.bot) return;
+
+    // MP recu de l'utilisateur -> relais vers le salon de ticket
+    if (!message.guild) {
+      return await dmTicketManager.handleDirectMessage(client, message);
+    }
+
+    // Message du staff dans un salon de ticket MP -> relais vers l'utilisateur
+    if (dmTicketManager.isTicketChannel(message.channel.id)) {
+      return await dmTicketManager.handleStaffReply(message);
+    }
+  } catch (err) {
+    console.error('Erreur messageCreate (ModMail):', err);
   }
 });
 
@@ -125,6 +147,10 @@ client.on('interactionCreate', async (interaction) => {
       // --- Ticket HRP (panneau separe) ---
       if (interaction.customId === 'ticket_hrp_open') {
         return await createTicket(interaction, 'ticket_hrp');
+      }
+      // --- Ticket ModMail par MP ---
+      if (interaction.customId === 'dm_ticket_close') {
+        return await dmTicketManager.closeTicket(interaction);
       }
       if (interaction.customId === 'rdv_start') {
         const cmd = client.commands.get('rdv');

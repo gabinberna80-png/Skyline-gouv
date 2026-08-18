@@ -30,9 +30,9 @@ module.exports = {
       "emoji": "💬",
       "description": "Pour toute demande hors RP (question, problème, signalement...)",
       "openingText": "Merci pour votre demande **HRP**. Merci de detailler votre demande le plus precisement possible.",
-      "discordCategoryId": "1539240448613421116",
+      "discordCategoryId": "1539244018293022771",
       "panel": "hrp",
-      "staffRoleIds": [
+      "staffRoleIds": 
         "1521241383552286861",
         "1521503217148493837"
       ]

@@ -25,19 +25,19 @@ module.exports = {
       ]
     },
     {
-  "id": "ticket_hrp",
-  "label": "Ticket HRP",
-  "emoji": "💬",
-  "description": "Pour toute demande hors RP (question, problème, signalement...)",
-  "openingText": "Merci pour votre demande **HRP**. Merci de detailler votre demande le plus precisement possible.",
-  "discordCategoryId": "1539240448613421116",
-  "panel": "hrp",
-  "staffRoleIds": [
-    "1501921273977245816",
-    "1521241383552286861",
-    "1521503217148493837"
-  ]
-}
+      "id": "ticket_hrp",
+      "label": "Ticket HRP",
+      "emoji": "💬",
+      "description": "Pour toute demande hors RP (question, problème, signalement...)",
+      "openingText": "Merci pour votre demande **HRP**. Merci de detailler votre demande le plus precisement possible.",
+      "discordCategoryId": "1539240448613421116",
+      "panel": "hrp",
+      "staffRoleIds": [
+        "1501921273977245816",
+        "1521241383552286861",
+        "1521503217148493837"
+      ]
+    },
     {
       "id": "recrutement_secretaire_etat",
       "label": "Recrutement Secretaire d'Etat",
